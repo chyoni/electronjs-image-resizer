@@ -9,6 +9,11 @@ const createMainWindow = () => {
     title: "Image Resizer",
     width: isDev ? 1000 : 500,
     height: 700,
+    webPreferences: {
+      contextIsolation: true,
+      nodeIntegration: true,
+      preload: path.join(__dirname, "preload.js"),
+    },
   });
 
   if (isDev) win.webContents.openDevTools();

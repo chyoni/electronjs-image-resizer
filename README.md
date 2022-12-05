@@ -30,3 +30,9 @@ head에 link로 로드하면 됨
 이렇게 하면 일단 watch 옵션을 줬기 때문에, JIT Compiler를 사용하여 새로 만들어지는 tailwind className이
 있을때마다 저 파일에 추가가 되는데 dev 환경에서는 이렇게 하면 되고 배포시에는 만든 파일을 가지고 그냥 link를 해주면 될 거 같다.
 ```
+
+### #03 Preload script
+
+```bash 
+Electron에서는 Node Module 관련해서 renderer에서 사용이 불가하므로 renderer에서 어떤 node module을 사용하기 위해서는 preload script를 사용해야 한다.
+```
