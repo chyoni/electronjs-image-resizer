@@ -35,4 +35,5 @@ head에 link로 로드하면 됨
 
 ```bash 
 Electron에서는 Node Module 관련해서 renderer에서 사용이 불가하므로 renderer에서 어떤 node module을 사용하기 위해서는 preload script를 사용해야 한다.
+**preload에서 contextBridge를 사용하여 exposeInMainWorld로 api를 generate하면 renderer에서는 글로벌로 접근이 가능해진다.**
 ```
