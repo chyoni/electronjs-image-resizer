@@ -8,7 +8,7 @@ const fileOutput = document.getElementById("output-path");
 fileInput.addEventListener("change", (e) => {
   const file = e.target.files[0];
   if (!isImageFile(file)) {
-    console.log("This type is not available.");
+    alertError("This type is not available.");
     return;
   }
 
@@ -28,7 +28,62 @@ fileInput.addEventListener("change", (e) => {
   );
 });
 
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  if (!fileInput.files[0]) {
+    alertError("Please upload an image");
+    return;
+  }
+
+  const filledWidth = width.value;
+  const filledHeight = height.value;
+
+  if (filledWidth === "" || filledHeight === "") {
+    alertError("Please fill in a width and height");
+    return;
+  }
+
+  const imgPath = fileInput.files[0].path;
+  ipcRenderer.send("image:resize", {
+    imgPath,
+    filledWidth,
+    filledHeight,
+  });
+});
+
+ipcRenderer.on("image:done", () => {
+  alertSuccess(`Image resized to ${width.value} x ${height.value}`);
+});
+
 const isImageFile = (file) => {
   const acceptedImageTypes = ["image/gif", "image/png", "image/jpeg"];
   return file && acceptedImageTypes.includes(file["type"]);
+};
+
+const alertError = (message) => {
+  Toastify.toast({
+    text: message,
+    duration: 3000,
+    close: false,
+    style: {
+      background: "red",
+      color: "white",
+      textAlign: "center",
+      padding: "5px",
+    },
+  });
+};
+
+const alertSuccess = (message) => {
+  Toastify.toast({
+    text: message,
+    duration: 3000,
+    close: false,
+    style: {
+      background: "green",
+      color: "white",
+      textAlign: "center",
+    },
+  });
 };
